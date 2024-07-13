@@ -1,0 +1,4 @@
+#ignore .py.swp files 
+
+*.py.swp
+

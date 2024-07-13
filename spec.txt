@@ -9,6 +9,7 @@ Online Voting System Specification
 • **System Functionality**: The user could register, vote for elections, and could see the results.
 • **User Characteristics**: Admin, voters, candidates
 • **Assumptions and Dependencies**: The users are assumed to have internet access and at least know the basics regarding computers. The application will require Django and PostgreSQL.
+Apps : Users, elections, candiates, admin, results, voting
  
 **3. Functional Requirements**
    - **User Authentication and Authorization**

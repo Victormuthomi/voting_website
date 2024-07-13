@@ -7,5 +7,9 @@ class Candidiate(models.Model):
     last_name = models.CharField(max_length=20)
     id_number = models.IntegerField()
     phone_number = models.IntegerField()
-    seat = models.char_field(max_length=20)
+    seat = models.CharField(max_length=20)
+
+    def __str__(self):
+        """Return a string representation of the model"""
+        return self.first_name + ' ' + last_name
 

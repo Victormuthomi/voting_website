@@ -1,0 +1,57 @@
+The apps that will be used in the voting website 
+
+Users: Handles user registration, authentication, and profile management.
+Elections: Manages the creation, editing, and deletion of elections.
+Candidates: Manages candidate information and their association with specific elections.
+Voting: Handles the voting process, including casting votes and ensuring each user votes only once per election.
+Results: Manages the tallying and display of election results.
+Admin: Provides administrative functionalities such as user management, election monitoring, and result publication.
+
+Detailed Description of Each App
+
+Users App
+Models:
+User: Extends Django's AbstractUser to include additional fields like user type (voter/admin).
+Views:
+User registration and login.
+User profile management.
+Templates:
+Registration, login, and profile pages.
+
+Elections App
+Models:
+Election: Contains fields like title, description, start date, end date, and status.
+Views:
+Create, edit, delete, and list elections.
+Templates:
+Election management pages for admins.
+
+Candidates App
+Models:
+Candidate: Contains fields like name, election (foreign key to Election), and bio.
+Views:
+Create, edit, delete, and list candidates for an election.
+Templates:
+Candidate management pages for admins.
+
+Voting App
+Models:
+Vote: Contains fields like user (foreign key to User), election (foreign key to Election), and candidate (foreign key to Candidate).
+Views:
+Voting page where users can cast their votes.
+Templates:
+Voting interface for users.
+
+Results App
+Models:
+No additional models needed; uses Election and Vote models.
+Views:
+Display results of elections.
+Templates:
+Results display page.
+Admin App
+
+Views:
+Administrative dashboard for managing users, elections, and monitoring results.
+Templates:
+Admin dashboard interface.

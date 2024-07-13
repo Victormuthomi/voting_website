@@ -11,5 +11,5 @@ class Candidate(models.Model):
 
     def __str__(self):
         """Return a string representation of the model"""
-        return self.first_name + ' ' + last_name
+        return self.first_name 
 

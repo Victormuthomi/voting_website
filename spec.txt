@@ -1,71 +1,75 @@
-### Online Voting System Specification
+Online Voting System Specification
 
 **1. Introduction**
-   - **Purpose**: To develop an online voting system for secure and efficient elections.
-   - **Scope**: The project includes user registration, election management, voting process, and result publication.
-   - **Definitions, Acronyms, and Abbreviations**: Terms such as admin, candidate, voter, and election will be used.
+   - **Purpose**: This document describes the design and development of an online voting system to provide a secure and efficient way of conducting elections.
+   - **Scope**: The scope of the project includes the registration of users, management of elections, the voting process, and publication of the results.
+   - **Definitions, Acronyms, and Abbreviations**: Admin, candidate, voter, election, etc shall be used in this document.
 
 **2. System Overview**
-   - **System Functionality**: The system allows users to register, vote in elections, and view results.
-   - **User Characteristics**: Admins, voters, and candidates.
-   - **Assumptions and Dependencies**: Assumes users have internet access and basic technical skills. Depends on Django and PostgreSQL.
-
+• **System Functionality**: The user could register, vote for elections, and could see the results.
+• **User Characteristics**: Admin, voters, candidates
+• **Assumptions and Dependencies**: The users are assumed to have internet access and at least know the basics regarding computers. The application will require Django and PostgreSQL.
+ 
 **3. Functional Requirements**
    - **User Authentication and Authorization**
-     - Users register with email and password.
-     - Users log in and log out.
-     - Admins create new elections.
-   - **Election Management**
-     - Admins create, edit, and delete elections.
-     - Elections have start and end dates.
-     - Admins add candidates to elections.
-   - **Voting Process**
-     - Users view ongoing elections.
-     - Users cast votes for candidates.
-     - Users vote only once per election.
-   - **Results**
-     - Admins view and publish results.
-     - Real-time results display for ongoing elections.
+     - The users could register with their email and a corresponding password.
+• User log-in and log-out
+• Addition of a new election by admin
+
+**Election Management**
+The admin can add, edit, or delete an election.
+The election start and end dates
+The admin can add candidates to an election.
+
+**Voting Process**
+- The User shall be allowed to view those elections which are in progress.
+ - The User shall be provided with a facility to vote for a candidate.
+ - The User shall be restricted to only one vote per election.
+ 
+ - **Results**
+ - The Admin shall be provided with an interface to view and publish the results.
+ - Real-time display of results of ongoing elections.
 
 **4. Non-Functional Requirements**
-   - **Performance**: Supports up to X concurrent users.
-   - **Security**: Implements SSL, data encryption, and secure password storage.
-   - **Scalability**: Scalable to accommodate more users.
-   - **Usability**: Intuitive user interface.
-   - **Reliability**: High availability and minimal downtime.
+ - **Performance**: This supports up to X concurrent users.
+- **Security**: SSL, data encryption, secure password storage
+   - **Scalability**: The system can scale to support many more users.
+   - **Usability**: Easy-to-use user interface.
+   - **Reliability**: Strong assurance of high availability and low downtime.
 
 **5. Technical Specifications**
    - **Software Requirements**
-     - Django (latest version)
+     - Django, Latest version
      - Database: PostgreSQL/MySQL
-     - Frontend: HTML, CSS, JavaScript (React.js/Vue.js)
-     - Authentication: Django Allauth
-     - Deployment: AWS/GCP/Heroku
+- Frontend:HTML, CSS, JavaScript(React.js/Vue.js)
+     - Authentication:Django Allauth
+     - Deployment:AWS/GCP/Heroku
    - **Hardware Requirements**
-     - Server specifications for different stages (development, testing, production).
+   
+     - Specification of server requirements for various stages, for example, Development, Testing and Production. 
 
-**6. Database Design**
-   - **Schema**: ER diagram and table descriptions.
+**6.Database Design**
+   - **Schema**:ER diagram along with table description.
      - Tables: Users, Elections, Candidates, Votes
 
 **7. API Endpoints**
-   - **Authentication**: Register, Login, Logout
-   - **Election Management**: Create, Update, Delete Elections
-   - **Voting**: Cast Vote, View Results
+• **Authentication**: Register, Log in, Log out
+  • **Election Management**: Create, Update, Delete Elections
+  • **Voting**: Cast Vote, View Results
 
 **8. User Interface Design**
-   - **Wireframes**: Wireframes for registration, voting, and results screens.
-   - **User Stories**: User interactions with the system.
+  • **Wireframes**: Wireframes of the registration, voting and results screens.
+  • **User Stories**: User interactions with the system.
 
 **9. Testing**
-   - **Unit Testing**: Tests for individual components.
-   - **Integration Testing**: Tests for combined components.
-   - **User Acceptance Testing (UAT)**: Final testing based on user scenarios.
+ • **Unit Testing**: Tests for individual components.
+ • **Integration Testing**: Tests for combined components.
+- **User Acceptance Testing (UAT)**: The final V&V activities are based on user scenarios.
 
 **10. Deployment**
-   - **Deployment Strategy**: Steps for deploying to production.
-   - **Backup and Recovery**: Data backup and recovery plan.
+   - **Deployment Strategy**: Steps to deploy into production
+   - **Backup and Recovery**: Data backup and recovery plan
 
 **11. Maintenance**
-   - **Monitoring**: Tools and methods for monitoring the system.
-   - **Updates**: Process for updating the system and applying patches.
+   - **Monitoring**: Tools and methods to monitor the system
+   - **Updates**: Process of updating the system, patching.

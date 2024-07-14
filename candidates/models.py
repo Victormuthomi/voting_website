@@ -8,6 +8,8 @@ class Candidate(models.Model):
     id_number = models.IntegerField()
     phone_number = models.IntegerField()
     seat = models.CharField(max_length=20)
+    picture = models.ImageField()
+    
 
     def __str__(self):
         """Return a string representation of the model"""

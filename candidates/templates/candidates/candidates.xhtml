@@ -1,13 +1,16 @@
-{% extends 'base.xhtml' %}
+{% extends 'candidates/base.xhtml' %}
 
 {% block content %}
 
 <p>Candidates</p>
+
 <ul>
     {% for candidate in candidates %}
-    <li>{{ first_name.text}}</li>
+      <li>{{candidate.first_name}}</li>
+      <li>{{candidate.last_name}}</li>
+      <li>{{candidate.seat}}</li>
     {% empty %}
-    <li>No candidates has been found</li>
+      <li>No candidates has been found</li>
     {% endfor %}
 </ul>
 

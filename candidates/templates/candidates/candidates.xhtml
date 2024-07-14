@@ -1,0 +1,14 @@
+{% extends 'base.xhtml' %}
+
+{% block content %}
+
+<p>Candidates</p>
+<ul>
+    {% for candidate in candidates %}
+    <li>{{ first_name.text}}</li>
+    {% empty %}
+    <li>No candidates has been found</li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

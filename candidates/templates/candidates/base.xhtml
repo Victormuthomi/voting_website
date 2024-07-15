@@ -1,7 +1,28 @@
-<p>
-<a href="{% url 'candidates:index' %}">Home </a>
-<a href="{% url 'candidates:candidates' %}">Candidates</a>
-<p>
-
-{% block content %} {% endblock content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Site</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'candidates:index' %}">Home</a></li>
+                <li><a href="{% url 'candidates:candidates' %}">Candidates</a></li>
+                <li><a href="{% url 'election_app:election' %}">Election</a></li>
+                <!-- Add more links here -->
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 online voting system </p>
+    </footer>
+</body>
+</html>
 

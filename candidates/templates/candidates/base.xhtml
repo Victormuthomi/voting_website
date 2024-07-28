@@ -1,6 +1,47 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>My Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -9,6 +50,7 @@
                 <li><a href="{% url 'candidates:index' %}">Home</a></li>
                 <li><a href="{% url 'candidates:candidates' %}">Candidates</a></li>
                 <li><a href="{% url 'election_app:election' %}">Election</a></li>
+                <li><a href="{% url 'results:results' %}">Results</a><li>
                 <!-- Add more links here -->
             </ul>
         </nav>
@@ -20,7 +62,7 @@
     </main>
     
     <footer>
-        <p>&copy; 2024 online voting system </p>
+        <p>&copy; 2024 Online Voting System</p>
     </footer>
 </body>
 </html>

@@ -38,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #my app
+    #my apps
     'candidates',
     'election_app',
-    'results'
+    'results',
+    'voting',
 ]
 
 MIDDLEWARE = [

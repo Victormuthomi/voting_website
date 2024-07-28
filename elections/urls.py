@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('candidates.urls')),
-    path('election_app/', include('election_app.urls')),
-    path('results/', include('results.urls')),
+    path('', include('candidates.urls')), #candidates app urls
+    path('election_app/', include('election_app.urls')), #election app urls 
+    path('results/', include('results.urls')), #results app urls
+    path('voting/', include('voting.urls')),
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #my app
     'candidates',
     'election_app',
+    'results'
 ]
 
 MIDDLEWARE = [

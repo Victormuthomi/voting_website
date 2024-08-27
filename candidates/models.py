@@ -9,6 +9,8 @@ class Candidate(models.Model):
     phone_number = models.IntegerField()
     seat = models.CharField(max_length=20)
     picture = models.ImageField()
+    manifesto = models.TestField()
+    motto = models.CharField(max_lengt=100)
     
 
     def __str__(self):

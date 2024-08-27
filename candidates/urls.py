@@ -9,5 +9,6 @@ app_name = 'candidates'
 urlpatterns=[
         #Home page
         path('', views.index, name='index'),
-        path('candidates/', views.candidates, name='candidates'),
+        # path('candidates/', views.candidates, name='candidates'),
+        path('elections/<int:election_id>/candidates/',views.candidates, name='candidates')
 ]

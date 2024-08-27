@@ -1,18 +1,87 @@
 {% extends 'candidates/base.xhtml' %}
 
 {% block content %}
+<!-- Internal CSS -->
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .candidates-title {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+    }
+    .candidates-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .candidate-card {
+        flex: 1 1 calc(33.333% - 20px);
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .candidate-card:hover {
+        transform: translateY(-5px);
+    }
+    .candidate-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #ddd;
+    }
+    .candidate-card-body {
+        padding: 20px;
+    }
+    .candidate-name {
+        font-size: 1.25em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .candidate-seat {
+        color: #555;
+    }
+    .no-candidates {
+        text-align: center;
+        font-size: 1.2em;
+        color: #888;
+        margin-top: 50px;
+    }
+</style>
 
-<p>Candidates</p>
+<div class="container">
+    <h2 class="candidates-title">Candidates List</h2>
+    {% if candidates %}
+        <div class="candidates-list">
+            {% for candidate in candidates %}
+            <div class="candidate-card">
+                <!-- Candidate Picture -->
+                <img src="{{ candidate.picture }}" alt="{{ candidate.first_name }} {{ candidate.last_name }}">
+                <div class="candidate-card-body">
+                    <!-- Candidate Name -->
+                    <div class="candidate-name">{{ candidate.first_name }} {{ candidate.last_name }}</div>
+                    <!-- Candidate Seat -->
+                    <div class="candidate-seat"><strong>Seat:</strong> {{ candidate.seat }}</div>
+                    <!--Candidate phone number -->
+                    <div class="candidate-Phone Number"><strong>Phone Number</strong> {{ candidate.phone_number }}</div>
+                   
+                   
 
-<ul>
-    {% for candidate in candidates %}
-      <li>{{candidate.first_name}}</li>
-      <li>{{candidate.last_name}}</li>
-      <li>{{candidate.seat}}</li>
-      <li>{{candidate.picture}}</li>
-    {% empty %}
-      <li>No candidates has been found</li>
-    {% endfor %}
-</ul>
-
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-candidates">No candidates have been found.</p>
+    {% endif %}
+</div>
 {% endblock content %}
+

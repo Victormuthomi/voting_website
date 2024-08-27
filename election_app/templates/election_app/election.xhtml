@@ -35,19 +35,21 @@ i{% extends 'candidates/base.xhtml' %}
     </style>
 
     <div class="container">
-        <h1>Upcoming Elections</h1>
-        {% if elections %}
-            {% for election in elections %}
-                <div class="election-info">
-                    <h2>{{ election.name }}</h2>
-                    <p class="election-date">Date: {{ election.date }}</p>
-                    <p>{{ election.details }}</p>
-                    <!-- add a link to the election -->
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No upcoming elections.</p>
-        {% endif %}
-    </div>
+    <h1>Upcoming Elections</h1>
+    {% if elections %}
+        {% for election in elections %}
+            <div class="election-info">
+                <h2>{{ election.name }}</h2>
+                <p class="election-date">Date: {{ election.date }}</p>
+                <p>{{ election.details }}</p>
+                <!-- Add a link to view candidates for this election -->
+                <a href="{% url 'candidates:candidates' election.id %}">View Candidates</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No upcoming elections.</p>
+    {% endif %}
+</div>
+
 {% endblock content %}
 

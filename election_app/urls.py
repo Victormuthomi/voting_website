@@ -7,5 +7,5 @@ from .import views
 app_name = 'election_app'
 
 urlpatterns=[
-        path('election/', views.election, name='election')
+        path('election/', views.elections, name='elections')
 ]

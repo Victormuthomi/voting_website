@@ -1,8 +1,53 @@
-{% extends 'candidates/base.xhtml' %}
+i{% extends 'candidates/base.xhtml' %}
 
 {% block content %}
+    <style>
+        .container {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-<p>The elections page<p>
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
 
+        .election-info {
+            margin-bottom: 20px;
+        }
+
+        .election-info p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .election-date {
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Upcoming Elections</h1>
+        {% if elections %}
+            {% for election in elections %}
+                <div class="election-info">
+                    <h2>{{ election.name }}</h2>
+                    <p class="election-date">Date: {{ election.date }}</p>
+                    <p>{{ election.details }}</p>
+                    <!-- add a link to the election -->
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No upcoming elections.</p>
+        {% endif %}
+    </div>
 {% endblock content %}
 

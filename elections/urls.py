@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('candidates.urls')), #candidates app urls
     path('election_app/', include('election_app.urls')), #election app urls 
     path('results/', include('results.urls')), #results app urls
-    path('voting/', include('voting.urls')),
+    path('voting/', include('voting.urls')), #voting urls
 ]

@@ -16,3 +16,16 @@ def candidates(request, election_id):
 
     return render(request, 'candidates/candidates.xhtml', context)
 
+def candidate_detail(request, election_id, candidate_id):
+    """Show the specific details of a particular candidate"""
+    election = get_object_or_404(Election, id=election_id)
+    candidate = get_object_or_404(Candidate, id=candidate_id, election=election)
+
+    context = {
+            'election' : election,
+            'candidate' : candidate,
+            }
+
+    return render(request, 'candidates/candidate_detail.xhtml', context)
+
+

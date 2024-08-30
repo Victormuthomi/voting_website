@@ -20,3 +20,4 @@ class Candidate(models.Model):
         """Return a string representation of the model"""
         return self.first_name 
 
+

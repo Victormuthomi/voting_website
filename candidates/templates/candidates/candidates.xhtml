@@ -70,19 +70,24 @@
                     <div class="candidate-name">{{ candidate.first_name }} {{ candidate.last_name }}</div>
                     <!-- Candidate Seat -->
                     <div class="candidate-seat"><strong>Seat:</strong> {{ candidate.seat }}</div>
-                    <!--Candidate phone number -->
-                    <div class="candidate-Phone Number"><strong>Phone Number</strong> {{ candidate.phone_number }}</div>
-                    <!--candidate motto -->
-                    <div class="candidate-motto"><strong>Motto</strong> {{ candidate.motto }} </div>
-                    <!-- candidate manifesto display only a few manifestos and a link to the remaining manifesto-->
-                    <div class="candidate-manifesto"<strong>Manifesto</strong> {{ candidate.manifesto }} </div>
-                   
-                   
-
+                    <!-- Candidate phone number -->
+                    <div class="candidate-phone-number"><strong>Phone Number:</strong> {{ candidate.phone_number }}</div>
+                    <!-- Candidate motto -->
+                    <div class="candidate-motto"><strong>Motto:</strong> {{ candidate.motto }}</div>
+                    <!-- Candidate manifesto -->
+                    <div class="candidate-manifesto"><strong>Manifesto:</strong> {{ candidate.manifesto }}</div>
+                    <!-- A link to the candidate specific details -->
+                <a href="{% url 'candidates:candidate_detail' election_id=election.id candidate_id=candidate.id %}">Go to</a>
                 </div>
             </div>
             {% endfor %}
         </div>
+
+        <!-- Link to the voting portal, displayed after all candidates -->
+        <div class="voting-portal-link">
+            <a href="{% url 'voting:voting' %}" class="btn btn-primary">Go to the  Voting Portal</a>
+        </div>
+        
     {% else %}
         <p class="no-candidates">No candidates have been found.</p>
     {% endif %}

@@ -1,7 +1,97 @@
-{% extends 'candidates/base.xhtml' %}
+{% extends "candidates/base.xhtml" %}
+
+{% block title %}Vote{% endblock %}
 
 {% block content %}
+<style>
+    /* In-template CSS */
+    .vote-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
 
-<h1>This is the  voting page</h1>
+    .vote-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-{% endblock content %}
+    .vote-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    .vote-container .candidate-item {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .vote-container .candidate-item img {
+        max-width: 100px;
+        max-height: 100px;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+
+    .vote-container .candidate-item .candidate-details {
+        display: flex;
+        align-items: center;
+    }
+
+    .vote-container .candidate-item .candidate-motto {
+        font-style: italic;
+        color: #555;
+    }
+
+    .vote-container .btn-submit {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .vote-container .btn-submit:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="vote-container">
+    <h2>Vote for Candidates</h2>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                <div class="candidate-item">
+                    <div class="candidate-details">
+                        <img src="{{ field.field.queryset.first.picture.url }}" alt="Candidate Photo">
+                        <div>
+                            <strong>{{ field.field.queryset.first.first_name }} {{ field.field.queryset.first.last_name }}</strong>
+                            <p class="candidate-motto">{{ field.field.queryset.first.motto }}</p>
+                        </div>
+                    </div>
+                    {{ field }}
+                </div>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-submit">Submit Vote</button>
+    </form>
+</div>
+{% endblock %}
+

@@ -1,3 +1,8 @@
+{% extends "candidates/base.xhtml" %}
+
+{% block title %}Candidate Detail{% endblock %}
+
+{% block content %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
@@ -83,8 +88,9 @@
             </div>
         </div>
         <a href="{% url 'candidates:candidates' candidate.election.id %}" class="btn">Back to Candidates</a>
-        <a href="{% url 'voting:voting' %}" class="btn">Go to the voting portal</a>
+        <!-- Link to voting page -->
+        <a href="{% url 'vote_page' election_id=election.id %}" class="btn">Vote Now</a>
     </div>
 </body>
 </html>
-
+{% endblock %}

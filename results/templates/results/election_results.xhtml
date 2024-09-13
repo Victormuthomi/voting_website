@@ -39,47 +39,31 @@
 </style>
 
 <div class="container">
-    <h1>All Election Results</h1>
+    <h1>Election Results for "{{ election.title }}"</h1>
     <table>
         <thead>
             <tr>
-                <th>Election Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>Candidate</th>
+                <th>Seat</th>
                 <th>Total Votes</th>
-                <th>Details</th>
             </tr>
         </thead>
         <tbody>
-            {% for election, results in results.items %}
+            {% for candidate, total_votes in candidates_with_totals.items %}
             <tr>
-                <td>{{ election.title }}</td>
-                <td>{{ election.description }}</td>
-                <td>{{ election.start_date }}</td>
-                <td>{{ election.end_date }}</td>
-                <td>
-                    {% with election.id as election_id %}
-                        {% with results.election_id as candidates_totals %}
-                            {% if candidates_totals %}
-                                {{ candidates_totals.values|sum }}
-                            {% else %}
-                                No votes
-                            {% endif %}
-                        {% endwith %}
-                    {% endwith %}
-                </td>
-                <td><a href="{% url 'election_results' election.id %}">View Details</a></td>
+                <td>{{ candidate.get_full_name }}</td>
+                <td>{{ candidate.seat }}</td>
+                <td>{{ total_votes }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6">No results available.</td>
+                <td colspan="3">No results available for this election.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="actions">
-        <a href="{% url 'candidates:index' %}">Back to Home</a>
+        <a href="{% url 'results' %}">Back to All Results</a>
     </div>
 </div>
 {% endblock %}

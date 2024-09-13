@@ -39,41 +39,29 @@
 </style>
 
 <div class="container">
-    <h1>All Election Results</h1>
+    <h1>Ongoing Elections</h1>
     <table>
         <thead>
             <tr>
-                <th>Election Title</th>
+                <th>Title</th>
                 <th>Description</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Total Votes</th>
                 <th>Details</th>
             </tr>
         </thead>
         <tbody>
-            {% for election, results in results.items %}
+            {% for election in elections %}
             <tr>
                 <td>{{ election.title }}</td>
                 <td>{{ election.description }}</td>
                 <td>{{ election.start_date }}</td>
                 <td>{{ election.end_date }}</td>
-                <td>
-                    {% with election.id as election_id %}
-                        {% with results.election_id as candidates_totals %}
-                            {% if candidates_totals %}
-                                {{ candidates_totals.values|sum }}
-                            {% else %}
-                                No votes
-                            {% endif %}
-                        {% endwith %}
-                    {% endwith %}
-                </td>
                 <td><a href="{% url 'election_results' election.id %}">View Details</a></td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6">No results available.</td>
+                <td colspan="5">No ongoing elections.</td>
             </tr>
             {% endfor %}
         </tbody>

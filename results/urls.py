@@ -1,12 +1,9 @@
-"""Defines the urls for the results app"""
-
 from django.urls import path
-
-from . import views
-
-app_name = 'results'
+from .views import ongoing_elections, ended_elections, election_results, results
 
 urlpatterns = [
-        #results page
-        path('results/', views.results, name='results')
+    path('results/',results, name='results'),
+    path('ongoing/', ongoing_elections, name='ongoing_elections'),
+    path('ended/', ended_elections, name='ended_elections'),
+    path('<int:election_id>/results/', election_results, name='election_results'),
 ]

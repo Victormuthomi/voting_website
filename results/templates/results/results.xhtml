@@ -28,6 +28,7 @@
           <strong>Election: {{ election.name }}</strong>
         </td>
       </tr>
+
       {% for seat, results in data.results.items %}
       <tr>
         <td
@@ -43,6 +44,7 @@
           <strong>Seat: {{ seat }}</strong>
         </td>
       </tr>
+
       {% if results %} {% for result in results %}
       <tr>
         <td style="border: 2px solid black; padding: 8px">

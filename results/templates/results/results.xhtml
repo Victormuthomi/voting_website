@@ -1,16 +1,17 @@
+{% extends "candidates/base.xhtml" %} {% block content %}
 <div class="container">
-  <h1>{{ title }}</h1>
+  <h1 style="color: #4caf50">{{ title }}</h1>
 
   {% if message %}
-  <p>{{ message }}</p>
+  <p style="color: #ffffff">{{ message }}</p>
   {% endif %} {% if election_results %}
-  <table style="border-collapse: collapse; width: 100%; margin-top: 20px">
+  <table>
     <thead>
       <tr>
-        <th style="border: 2px solid black; padding: 8px">#</th>
-        <th style="border: 2px solid black; padding: 8px">Candidate Name</th>
-        <th style="border: 2px solid black; padding: 8px">Total Votes</th>
-        <th style="border: 2px solid black; padding: 8px">Election Date</th>
+        <th>#</th>
+        <th>Candidate Name</th>
+        <th>Total Votes</th>
+        <th>Election Date</th>
       </tr>
     </thead>
     <tbody>
@@ -18,12 +19,7 @@
       <tr>
         <td
           colspan="4"
-          style="
-            border: 2px solid black;
-            padding: 8px;
-            font-weight: bold;
-            text-align: center;
-          "
+          style="font-weight: bold; text-align: center; color: #4caf50"
         >
           <strong>Election: {{ election.name }}</strong>
         </td>
@@ -34,11 +30,10 @@
         <td
           colspan="4"
           style="
-            border: 2px solid black;
-            padding: 8px;
             font-weight: bold;
-            background-color: #f2f2f2;
+            background-color: #333333;
             text-align: center;
+            color: #ffffff;
           "
         >
           <strong>Seat: {{ seat }}</strong>
@@ -47,25 +42,16 @@
 
       {% if results %} {% for result in results %}
       <tr>
-        <td style="border: 2px solid black; padding: 8px">
-          {{ forloop.counter }}
-        </td>
-        <td style="border: 2px solid black; padding: 8px">
+        <td>{{ forloop.counter }}</td>
+        <td>
           {{ result.candidate__first_name }} {{ result.candidate__last_name }}
         </td>
-        <td style="border: 2px solid black; padding: 8px">
-          {{ result.total_votes }}
-        </td>
-        <td style="border: 2px solid black; padding: 8px">
-          {{ election.date }}
-        </td>
+        <td>{{ result.total_votes }}</td>
+        <td>{{ election.date }}</td>
       </tr>
       {% endfor %} {% else %}
       <tr>
-        <td
-          colspan="4"
-          style="border: 2px solid black; padding: 8px; text-align: center"
-        >
+        <td colspan="4" style="text-align: center; color: #ffffff">
           No candidates for this seat.
         </td>
       </tr>
@@ -73,6 +59,56 @@
     </tbody>
   </table>
   {% else %}
-  <p>No election results available.</p>
+  <p style="color: #ffffff">No election results available.</p>
   {% endif %}
 </div>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    color: #4caf50;
+  }
+
+  p {
+    color: #ffffff;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  th,
+  td {
+    border: 2px solid #4caf50;
+    padding: 8px;
+    text-align: left;
+    color: #ffffff;
+  }
+
+  th {
+    background-color: #333333;
+  }
+
+  tr:nth-child(even) {
+    background-color: #444444;
+  }
+</style>
+{% endblock %}

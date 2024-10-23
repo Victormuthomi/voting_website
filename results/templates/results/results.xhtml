@@ -1,85 +1,76 @@
-{% extends 'candidates/base.xhtml' %}
-
-{% block content %}
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    table th, table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    table th {
-        background-color: #333;
-        color: #fff;
-    }
-    table tr:hover {
-        background-color: #f5f5f5;
-    }
-    .actions {
-        margin: 20px 0;
-        text-align: right;
-    }
-    .actions a {
-        text-decoration: none;
-        color: #333;
-        background: #e7e7e7;
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-    .actions a:hover {
-        background: #ddd;
-    }
-</style>
-
 <div class="container">
-    <h1>All Election Results</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Election Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Total Votes</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for election, results in results.items %}
-            <tr>
-                <td>{{ election.title }}</td>
-                <td>{{ election.description }}</td>
-                <td>{{ election.start_date }}</td>
-                <td>{{ election.end_date }}</td>
-                <td>
-                    {% with election.id as election_id %}
-                        {% with results.election_id as candidates_totals %}
-                            {% if candidates_totals %}
-                                {{ candidates_totals.values|sum }}
-                            {% else %}
-                                No votes
-                            {% endif %}
-                        {% endwith %}
-                    {% endwith %}
-                </td>
-                <td><a href="{% url 'election_results' election.id %}">View Details</a></td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6">No results available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="actions">
-        <a href="{% url 'candidates:index' %}">Back to Home</a>
-    </div>
+  <h1>{{ title }}</h1>
+
+  {% if message %}
+  <p>{{ message }}</p>
+  {% endif %} {% if election_results %}
+  <table style="border-collapse: collapse; width: 100%; margin-top: 20px">
+    <thead>
+      <tr>
+        <th style="border: 2px solid black; padding: 8px">#</th>
+        <th style="border: 2px solid black; padding: 8px">Candidate Name</th>
+        <th style="border: 2px solid black; padding: 8px">Total Votes</th>
+        <th style="border: 2px solid black; padding: 8px">Election Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for election, data in election_results.items %}
+      <tr>
+        <td
+          colspan="4"
+          style="
+            border: 2px solid black;
+            padding: 8px;
+            font-weight: bold;
+            text-align: center;
+          "
+        >
+          <strong>Election: {{ election.name }}</strong>
+        </td>
+      </tr>
+      {% for seat, results in data.results.items %}
+      <tr>
+        <td
+          colspan="4"
+          style="
+            border: 2px solid black;
+            padding: 8px;
+            font-weight: bold;
+            background-color: #f2f2f2;
+            text-align: center;
+          "
+        >
+          <strong>Seat: {{ seat }}</strong>
+        </td>
+      </tr>
+      {% if results %} {% for result in results %}
+      <tr>
+        <td style="border: 2px solid black; padding: 8px">
+          {{ forloop.counter }}
+        </td>
+        <td style="border: 2px solid black; padding: 8px">
+          {{ result.candidate__first_name }} {{ result.candidate__last_name }}
+        </td>
+        <td style="border: 2px solid black; padding: 8px">
+          {{ result.total_votes }}
+        </td>
+        <td style="border: 2px solid black; padding: 8px">
+          {{ election.date }}
+        </td>
+      </tr>
+      {% endfor %} {% else %}
+      <tr>
+        <td
+          colspan="4"
+          style="border: 2px solid black; padding: 8px; text-align: center"
+        >
+          No candidates for this seat.
+        </td>
+      </tr>
+      {% endif %} {% endfor %} {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No election results available.</p>
+  {% endif %}
 </div>
-{% endblock %}

@@ -1,84 +1,48 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from datetime import datetime
+from django.utils import timezone
 from election_app.models import Election
-from candidates.models import Candidate
-from .models import Result
-
-def ongoing_elections(request):
-    """View for ongoing elections with total votes for each candidate"""
-    ongoing_elections = Election.objects.filter(date__gt=datetime.now())
-    results = Result.objects.filter(election__in=ongoing_elections).values('election', 'candidate').annotate(total_votes=Sum('votes'))
-    
-    election_candidate_totals = {}
-    for result in results:
-        election_id = result['election']
-        candidate_id = result['candidate']
-        total_votes = result['total_votes']
-        
-        if election_id not in election_candidate_totals:
-            election_candidate_totals[election_id] = {}
-        
-        election_candidate_totals[election_id][candidate_id] = total_votes
-
-    return render(request, 'results/ongoing_elections.xhtml', {
-        'elections': ongoing_elections,
-        'election_candidate_totals': election_candidate_totals
-    })
-
-def ended_elections(request):
-    """View for ended elections with total votes for each candidate"""
-    ended_elections = Election.objects.filter(date__lte=datetime.now())
-    results = Result.objects.filter(election__in=ended_elections).values('election', 'candidate').annotate(total_votes=Sum('votes'))
-    
-    election_candidate_totals = {}
-    for result in results:
-        election_id = result['election']
-        candidate_id = result['candidate']
-        total_votes = result['total_votes']
-        
-        if election_id not in election_candidate_totals:
-            election_candidate_totals[election_id] = {}
-        
-        election_candidate_totals[election_id][candidate_id] = total_votes
-
-    return render(request, 'results/ended_elections.xhtml', {
-        'elections': ended_elections,
-        'election_candidate_totals': election_candidate_totals
-    })
-
-def election_results(request, election_id):
-    """View for the results of a specific election"""
-    election = get_object_or_404(Election, id=election_id)
-    results = Result.objects.filter(election=election).select_related('candidate')
-
-    # Prepare a dictionary with candidates and their total votes
-    candidates_with_totals = defaultdict(int)
-    for result in results:
-        candidates_with_totals[result.candidate] += result.votes
-
-    # Prepare a dictionary with candidate details and total votes
-    candidates_with_totals = {
-        candidate: total_votes
-        for candidate, total_votes in candidates_with_totals.items()
-    }
-
-    return render(request, 'results/election_results.xhtml', {
-        'election': election,
-        'candidates_with_totals': candidates_with_totals
-    })
-
-    return render(request, 'results/election_results.xhtml', {
-        'election': election,
-        'results': results,
-        'candidates_with_totals': candidates_with_totals
-    })
-
-
+from .models import Result, Seat
 
 def results(request):
-    """View for all election results"""
-    all_elections = Election.objects.all()
-    results = {election: Result.objects.filter(election=election) for election in all_elections}
-    return render(request, 'results/results.xhtml', {'results': results})
+    """View for displaying election results. Shows only ended elections and a message if ongoing elections exist."""
+    current_time = timezone.now()  # Get the current time
 
+    # Fetch ended elections
+    ended_elections = Election.objects.filter(date__lte=current_time)
+    ongoing_elections = Election.objects.filter(date__gt=current_time)
+
+    election_results = {}
+    
+    for election in ended_elections:
+        # Fetch results for each ended election
+        results = Result.objects.filter(election=election)\
+            .select_related('candidate', 'seat')\
+            .values('seat__name', 'candidate__first_name', 'candidate__last_name')\
+            .annotate(total_votes=Sum('votes'))\
+            .order_by('seat', '-total_votes')  # Order by seat and then total votes
+
+        # Group results by seat
+        seat_results = {}
+        for result in results:
+            seat_name = result['seat__name']
+            if seat_name not in seat_results:
+                seat_results[seat_name] = []
+            seat_results[seat_name].append(result)
+
+        election_results[election] = {
+            'results': seat_results,
+            'status': 'Ended'
+        }
+
+    # Check if there are ongoing elections
+    if ongoing_elections.exists():
+        message = "There are ongoing elections. Results will be displayed once they have ended."
+    else:
+        message = None  # No ongoing elections
+
+    return render(request, 'results/results.xhtml', {
+        'election_results': election_results,
+        'title': 'Election Results',
+        'message': message,  # Pass the message to the template
+    })

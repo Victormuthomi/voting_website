@@ -84,8 +84,9 @@
     {% for candidate in candidates %}
     <div class="candidate-card">
       <img
-        src="{{ candidate.picture }}"
+        src="{{ candidate.picture.url }}"
         alt="{{ candidate.first_name }} {{ candidate.last_name }}"
+        style="max-width: 200px; border-radius: 50%"
       />
       <div class="candidate-card-body">
         <div class="candidate-name">

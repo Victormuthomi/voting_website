@@ -1,4 +1,3 @@
-# voting/forms.py
 from django import forms
 from election_app.models import Election
 from candidates.models import Candidate
@@ -12,14 +11,15 @@ class SeatVoteForm(forms.Form):
         # Create a field for each candidate in the election
         candidates = Candidate.objects.filter(election=self.election)
         for candidate in candidates:
+            # Update this line to use the __str__ method for candidate's name
             self.fields[f'vote_{candidate.id}'] = forms.BooleanField(
-                label=candidate.name, 
+                label=str(candidate),  # Use str(candidate) to get the full name
                 required=False
             )
 
     def clean(self):
         cleaned_data = super().clean()
-        
+
         # Check if user has already voted in this election
         from .models import Vote  # Local import to avoid circular import
 

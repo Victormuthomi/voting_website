@@ -1,5 +1,3 @@
-# users/models.py
-
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
@@ -7,7 +5,6 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
     id_number = models.CharField(max_length=20, unique=True, blank=False)
 
-    # Set related_name to avoid clashes
     groups = models.ManyToManyField(
         Group,
         related_name='customuser_set',

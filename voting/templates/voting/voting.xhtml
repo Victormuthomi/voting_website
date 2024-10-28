@@ -1,7 +1,105 @@
-{% extends "candidates/base.xhtml" %} {% block title %}Vote{% endblock %} {%
-block content %}
+{% extends "candidates/base.xhtml" %} {% block content %}
 <style>
-  /* Your existing styles */
+  .vote-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .alert {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #eaf4ff;
+    color: #004085;
+    border: 1px solid #b8daff;
+  }
+
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+  }
+
+  .candidate-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .candidate-radio:hover {
+    background-color: #f1f8ff;
+  }
+
+  .candidate-radio input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .candidate-details {
+    display: flex;
+    align-items: center;
+  }
+
+  .candidate-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
+  .btn-submit:hover {
+    background-color: #218838;
+  }
+
+  .btn-back {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 20px; /* Add some space above the button */
+  }
+
+  .btn-back:hover {
+    background-color: #0056b3;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+  }
 </style>
 
 <div class="vote-container">
@@ -9,49 +107,71 @@ block content %}
   <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
     {{ message }}
   </div>
-  {% endfor %} {% if election.is_upcoming %}
-  <h2>Upcoming Election: {{ election.title }}</h2>
-  <p>You cannot vote yet. Here are the candidates:</p>
+  {% endfor %} {% if election.is_ongoing %}
+  <h2 class="title">Vote for a Candidate</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      {% for candidate in candidates %}
+      <label class="candidate-radio">
+        <input
+          type="radio"
+          name="candidate_id"
+          value="{{ candidate.id }}"
+          required
+        />
+        <div class="candidate-details">
+          <img
+            src="{{ candidate.picture.url }}"
+            alt="{{ candidate.first_name }}"
+            class="candidate-photo"
+          />
+          <div>
+            <strong>{{ candidate.first_name }} {{ candidate.last_name }}</strong
+            ><br />
+            <span class="candidate-motto">{{ candidate.motto }}</span>
+          </div>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
+    <button type="submit" class="btn-submit">Submit Vote</button>
+  </form>
+
+  <!-- Back to Elections Button -->
+  <a href="{% url 'election_app:elections' %}" class="btn-back"
+    >Back to Elections</a
+  >
+
+  {% elif election.is_upcoming %}
+  <h2 class="title">Upcoming Election: {{ election.title }}</h2>
+  <p class="text-center">Voting will open soon. Here are the candidates:</p>
   <div class="candidates-list">
     {% for candidate in candidates %}
     <div class="candidate-item">
-      <img src="{{ candidate.picture.url }}" alt="Candidate Photo" />
-      <strong>{{ candidate.first_name }} {{ candidate.last_name }}</strong>
-      <p class="candidate-motto">{{ candidate.motto }}</p>
-    </div>
-    {% endfor %}
-  </div>
-  {% elif election.is_ongoing %}
-  <h2>Vote for Candidates</h2>
-
-  <form method="post" action="">
-    {% csrf_token %} {% for field in form %}
-    <div class="form-group">
-      <div class="candidate-item">
-        <div class="candidate-details">
-          <img
-            src="{{ field.field.queryset.first.picture.url }}"
-            alt="Candidate Photo"
-          />
-          <div>
-            <strong
-              >{{ field.field.queryset.first.first_name }} {{
-              field.field.queryset.first.last_name }}</strong
-            >
-            <p class="candidate-motto">
-              {{ field.field.queryset.first.motto }}
-            </p>
-          </div>
-        </div>
-        {{ field }}
+      <img
+        src="{{ candidate.picture.url }}"
+        alt="{{ candidate.first_name }}"
+        class="candidate-photo"
+      />
+      <div class="candidate-details">
+        <strong>{{ candidate.first_name }} {{ candidate.last_name }}</strong
+        ><br />
+        <p class="candidate-motto">{{ candidate.motto }}</p>
       </div>
     </div>
     {% endfor %}
+  </div>
+  <!-- Back to Elections Button -->
+  <a href="{% url 'election_app:elections' %}" class="btn-back"
+    >Back to Elections</a
+  >
 
-    <button type="submit" class="btn-submit">Submit Vote</button>
-  </form>
   {% else %}
-  <h2>This election has ended.</h2>
+  <h2 class="title">This election has ended.</h2>
+  <a href="{% url 'election_app:elections' %}" class="btn-back"
+    >Back to Elections</a
+  >
   {% endif %}
 </div>
 {% endblock %}

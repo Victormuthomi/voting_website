@@ -1,8 +1,8 @@
 from django.shortcuts import render
+from django.utils import timezone  # Import timezone for handling current time
 from django.db.models import Sum
-from django.utils import timezone
 from election_app.models import Election
-from .models import Result, Seat
+from results.models import Result  # Adjust the import paths if necessary
 
 def results(request):
     """View for displaying election results. Shows only ended elections and a message if ongoing elections exist."""
@@ -20,7 +20,7 @@ def results(request):
             .select_related('candidate', 'seat')\
             .values('seat__name', 'candidate__first_name', 'candidate__last_name')\
             .annotate(total_votes=Sum('votes'))\
-            .order_by('seat', '-total_votes')  # Order by seat and then total votes
+            .order_by('seat__name', '-total_votes')  # Order by seat and then total votes
 
         # Group results by seat
         seat_results = {}
@@ -36,10 +36,9 @@ def results(request):
         }
 
     # Check if there are ongoing elections
+    message = None
     if ongoing_elections.exists():
         message = "There are ongoing elections. Results will be displayed once they have ended."
-    else:
-        message = None  # No ongoing elections
 
     return render(request, 'results/results.xhtml', {
         'election_results': election_results,

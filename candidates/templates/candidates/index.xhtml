@@ -1,97 +1,133 @@
-{% extends 'candidates/base.xhtml' %}
-
-{% block content %}
+{% extends 'candidates/base.xhtml' %} {% block content %}
 <style>
-.container {
+  .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-}
-    .hero {
-        text-align: center;
-        padding: 50px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .hero h1 {
-        font-size: 3em;
-        color: #333;
-        margin-bottom: 20px;
-    }
-    .hero p {
-        font-size: 1.2em;
-        color: #555;
-    }
-    .features {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    .feature {
-        flex: 1;
-        padding: 20px;
-        margin: 0 10px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-    .feature h2 {
-        font-size: 1.5em;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    .feature p {
-        font-size: 1em;
-        color: #555;
-    }
-    .cta {
-        text-align: center;
-        padding: 30px;
-        background-color: #333;
-        color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .cta a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    .cta a:hover {
-        text-decoration: underline;
-    }
+  }
+
+  .hero {
+    text-align: center;
+    padding: 50px;
+    background-color: #f9f9f9; /* Light grey background */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero h1 {
+    font-size: 3em;
+    color: #333; /* Dark text for header */
+    margin-bottom: 20px;
+  }
+
+  .hero p {
+    font-size: 1.2em;
+    color: #555; /* Medium grey for paragraph text */
+  }
+
+  .features {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .feature {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+    background-color: #fff; /* White background for features */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .feature:hover {
+    transform: translateY(-5px);
+  }
+
+  .feature h2 {
+    font-size: 1.5em;
+    color: #007bff; /* Blue color for feature headings */
+    margin-bottom: 10px;
+  }
+
+  .feature p {
+    font-size: 1em;
+    color: #555; /* Medium grey for feature text */
+  }
+
+  .cta {
+    text-align: center;
+    padding: 30px;
+    background-color: #f9f9f9; /* Light grey background */
+    color: #000; /* Black text for call-to-action */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+
+  .cta a {
+    color: #fff; /* White text for buttons */
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #007bff; /* Blue background for buttons */
+    transition: background-color 0.3s;
+  }
+
+  .cta a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
 </style>
 
 <div class="container">
-    <div class="hero">
-        <h1>Welcome to the Online Voting System</h1>
-        <p>Your trusted platform for secure and efficient online voting.</p>
-    </div>
+  <div class="hero">
+    <h1>Welcome to the Tuvote Voting System</h1>
+    {% if user.is_authenticated %}
+    <p>Hello, {{ user.first_name }}!</p>
+    {% endif %}
+    <p>Your trusted platform for secure and efficient online voting.</p>
+  </div>
 
-    <div class="features">
-        <div class="feature">
-            <h2>Secure</h2>
-            <p>Our system uses the latest encryption technologies to ensure the security of your vote.</p>
-        </div>
-        <div class="feature">
-            <h2>Reliable</h2>
-            <p>Count on us for accurate and timely vote tallying and reporting.</p>
-        </div>
-        <div class="feature">
-            <h2>User-Friendly</h2>
-            <p>Our interface is designed to be intuitive and easy to use for everyone.</p>
-        </div>
+  <div class="features">
+    <div class="feature">
+      <h2>Secure</h2>
+      <p>
+        Our system uses the latest encryption technologies to ensure the
+        security of your vote.
+      </p>
     </div>
+    <div class="feature">
+      <h2>Reliable</h2>
+      <p>Count on us for accurate and timely vote tallying and reporting.</p>
+    </div>
+    <div class="feature">
+      <h2>User-Friendly</h2>
+      <p>
+        Our interface is designed to be intuitive and easy to use for everyone.
+      </p>
+    </div>
+  </div>
 
-    <div class="cta">
-        <p>Ready to participate in the next election?</p>
-        <a href="{% url 'election_app:elections' %}">Get Started Now</a>
-    </div>
+  {% if user.is_authenticated %}
+  <div class="cta">
+    <p>Welcome back, {{ user.username }}! Ready to participate?</p>
+    <a href="{% url 'election_app:elections' %}">Elections</a>
+    <a href="{% url 'users:logout' %}">Logout</a>
+    <a href="{% url 'results' %}">View Results</a>
+  </div>
+  {% else %}
+  <div class="cta">
+    <p>Ready to participate in the next election? Please register or log in!</p>
+    <a href="{% url 'users:register' %}">Register</a>
+    <a href="{% url 'users:login' %}">Login</a>
+    <a href="{% url 'results' %}">View Results</a>
+  </div>
+  {% endif %}
 </div>
 {% endblock content %}
-
-
-

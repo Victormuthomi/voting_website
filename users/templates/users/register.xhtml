@@ -1,0 +1,94 @@
+{% extends 'candidates/base.xhtml' %} {% block title %}Register - Tuvote Voting
+System{% endblock %} {% block content %}
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  h2 {
+    text-align: center;
+    color: #4caf50;
+  }
+  .message {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .message p {
+    color: green;
+  }
+  .message p.red {
+    color: red;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  .footer-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  .footer-link a {
+    color: #4caf50;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Register</h2>
+
+  {% if messages %}
+  <div class="message">
+    {% for message in messages %}
+    <p
+      style="color: {% if message.tags == 'success' %}green{% else %}red{% endif %};"
+    >
+      {{ message }}
+    </p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'users:register' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_number">ID Number:</label>
+      <input type="text" name="id_number" id="id_number" required />
+    </div>
+    {{ form.as_p|slice:":-1" }}
+    <!-- Exclude the last form field if necessary -->
+    <button type="submit">Register</button>
+  </form>
+
+  <p class="footer-link">
+    Already have an account? <a href="{% url 'users:login' %}">Login here</a>.
+  </p>
+</div>
+{% endblock content %}

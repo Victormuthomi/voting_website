@@ -1,55 +1,72 @@
-i{% extends 'candidates/base.xhtml' %}
+{% extends 'candidates/base.xhtml' %} {% block content %}
+<style>
+  .custom-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745; /* Green color */
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 
-{% block content %}
-    <style>
-        .container {
-            font-family: Arial, sans-serif;
-            margin: 20px auto;
-            max-width: 800px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+  .custom-button:hover {
+    background-color: white;
+    color: #28a745; /* Green color */
+    border: 1px solid #28a745; /* Green border */
+  }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
+  .election-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
 
-        .election-info {
-            margin-bottom: 20px;
-        }
+  h1 {
+    text-align: center;
+  }
 
-        .election-info p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #555;
-        }
+  .election-date {
+    font-weight: bold;
+  }
+</style>
 
-        .election-date {
-            font-weight: bold;
-        }
-    </style>
+<div class="container">
+  <h1>Ongoing Elections</h1>
+  {% if ongoing_elections %} {% for election in ongoing_elections %}
+  <div class="election-info">
+    <h2>{{ election.name }}</h2>
+    <p class="election-date">Date: {{ election.date }}</p>
+    <p>{{ election.details }}</p>
+    <a
+      href="{% url 'candidates:candidates' election.id %}"
+      class="custom-button"
+      >View Candidates</a
+    >
+  </div>
+  {% endfor %} {% else %}
+  <p>No ongoing elections.</p>
+  {% endif %}
 
-    <div class="container">
-    <h1>Upcoming Elections</h1>
-    {% if elections %}
-        {% for election in elections %}
-            <div class="election-info">
-                <h2>{{ election.name }}</h2>
-                <p class="election-date">Date: {{ election.date }}</p>
-                <p>{{ election.details }}</p>
-                <!-- Add a link to view candidates for this election -->
-                <a href="{% url 'candidates:candidates' election.id %}">View Candidates</a>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No upcoming elections.</p>
-    {% endif %}
+  <h1>Upcoming Elections</h1>
+  {% if upcoming_elections %} {% for election in upcoming_elections %}
+  <div class="election-info">
+    <h2>{{ election.name }}</h2>
+    <p class="election-date">Date: {{ election.date }}</p>
+    <p>{{ election.details }}</p>
+    <a
+      href="{% url 'candidates:candidates' election.id %}"
+      class="custom-button"
+      >View Candidates</a
+    >
+  </div>
+  {% endfor %} {% else %}
+  <p>No upcoming elections.</p>
+  {% endif %}
 </div>
-
 {% endblock content %}
-

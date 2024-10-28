@@ -1,68 +1,110 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>My Site</title>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Tuvote Voting System{% endblock %}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin: 0 10px;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-        }
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-        main {
-            padding: 20px;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'candidates:index' %}">Home</a></li>
-                <li><a href="{% url 'election_app:elections' %}">Election</a></li>
-                <li><a href="{% url 'results' %}">Results</a><li>
-                <!-- Add more links here -->
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-    
-    <footer>
-        <p>&copy; 2024 Online Voting System</p>
-    </footer>
-</body>
-</html>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4; /* Light grey background */
+        color: #333; /* Dark text color */
+      }
 
+      header {
+        background-color: #4caf50; /* Green header background */
+        color: white; /* White text for header */
+        padding: 20px 0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 2.5em;
+        text-align: center;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      nav a {
+        color: white; /* White text for navigation links */
+        margin: 0 15px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: #e0e0e0; /* Light grey on hover */
+      }
+
+      main {
+        padding: 20px;
+        background-color: white; /* White background for main content */
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+        margin: 20px auto;
+        max-width: 800px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px 0;
+        color: #333; /* Dark text for footer */
+        background-color: #f1f1f1; /* Light grey footer background */
+      }
+
+      footer p {
+        margin: 0; /* Remove margin for footer text */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Tuvote Online System</h1>
+        {% if user.is_authenticated %}
+        <p>Welcome, {{ user.first_name }}!</p>
+        <nav>
+          <a href="{% url 'candidates:index' %}">Home</a>
+          <a href="{% url 'election_app:elections' %}">Elections</a>
+          <a href="{% url 'users:logout' %}">Logout</a>
+          <a href="{% url 'results' %}">View Results</a>
+        </nav>
+        {% else %}
+        <nav>
+          <a href="{% url 'candidates:index' %}">Home</a>
+          <a href="{% url 'users:register' %}">Register</a>
+          <a href="{% url 'users:login' %}">Login</a>
+          <a href="{% url 'results' %}">View Results</a>
+        </nav>
+        {% endif %}
+      </div>
+    </header>
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <footer>
+      <div class="container">
+        <p>
+          &copy; {{ current_year }} Tuvote Online System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,95 +1,118 @@
-{% extends 'candidates/base.xhtml' %}
-
-{% block content %}
+{% extends 'candidates/base.xhtml' %} {% block content %}
 <!-- Internal CSS -->
 <style>
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    .candidates-title {
-        text-align: center;
-        margin-bottom: 40px;
-        color: #333;
-        font-family: 'Arial', sans-serif;
-    }
-    .candidates-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
-    }
-    .candidate-card {
-        flex: 1 1 calc(33.333% - 20px);
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-    .candidate-card:hover {
-        transform: translateY(-5px);
-    }
-    .candidate-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-bottom: 1px solid #ddd;
-    }
-    .candidate-card-body {
-        padding: 20px;
-    }
-    .candidate-name {
-        font-size: 1.25em;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-    .candidate-seat {
-        color: #555;
-    }
-    .no-candidates {
-        text-align: center;
-        font-size: 1.2em;
-        color: #888;
-        margin-top: 50px;
-    }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .candidates-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+    font-family: "Arial", sans-serif;
+  }
+
+  .candidates-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .candidate-card {
+    flex: 1 1 calc(33.333% - 20px);
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .candidate-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .candidate-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .candidate-card-body {
+    padding: 20px;
+  }
+
+  .candidate-name {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .candidate-seat {
+    color: #555;
+  }
+
+  .candidate-phone-number,
+  .candidate-motto,
+  .candidate-manifesto {
+    color: #777;
+  }
+
+  .no-candidates {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+    margin-top: 50px;
+  }
+
+  .voting-portal-link {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.2em;
+    color: #3498db;
+  }
 </style>
 
 <div class="container">
-    <h2 class="candidates-title">Candidates List</h2>
-    {% if candidates %}
-        <div class="candidates-list">
-            {% for candidate in candidates %}
-            <div class="candidate-card">
-                <!-- Candidate Picture -->
-                <img src="{{ candidate.picture }}" alt="{{ candidate.first_name }} {{ candidate.last_name }}">
-                <div class="candidate-card-body">
-                    <!-- Candidate Name -->
-                    <div class="candidate-name">{{ candidate.first_name }} {{ candidate.last_name }}</div>
-                    <!-- Candidate Seat -->
-                    <div class="candidate-seat"><strong>Seat:</strong> {{ candidate.seat }}</div>
-                    <!-- Candidate phone number -->
-                    <div class="candidate-phone-number"><strong>Phone Number:</strong> {{ candidate.phone_number }}</div>
-                    <!-- Candidate motto -->
-                    <div class="candidate-motto"><strong>Motto:</strong> {{ candidate.motto }}</div>
-                    <!-- Candidate manifesto -->
-                    <div class="candidate-manifesto"><strong>Manifesto:</strong> {{ candidate.manifesto }}</div>
-                    <!-- A link to the candidate specific details -->
-                <a href="{% url 'candidates:candidate_detail' election_id=election.id candidate_id=candidate.id %}">Go to</a>
-                </div>
-            </div>
-            {% endfor %}
+  <h2 class="candidates-title">List of Candidates</h2>
+  {% if candidates %}
+  <div class="candidates-list">
+    {% for candidate in candidates %}
+    <div class="candidate-card">
+      <img
+        src="{{ candidate.picture }}"
+        alt="{{ candidate.first_name }} {{ candidate.last_name }}"
+      />
+      <div class="candidate-card-body">
+        <div class="candidate-name">
+          {{ candidate.first_name }} {{ candidate.last_name }}
         </div>
-
-        <!-- Link to the voting portal, displayed after all candidates -->
-        <div class="voting-portal-link">
+        <div class="candidate-seat">
+          <strong>Position Contested:</strong> {{ candidate.seat }}
         </div>
-        
-    {% else %}
-        <p class="no-candidates">No candidates have been found.</p>
-    {% endif %}
+        <div class="candidate-phone-number">
+          <strong>Contact Number:</strong> {{ candidate.phone_number }}
+        </div>
+        <div class="candidate-motto">
+          <strong>Campaign Motto:</strong> {{ candidate.motto }}
+        </div>
+        <div class="candidate-manifesto">
+          <strong>Manifesto Overview:</strong> {{ candidate.manifesto }}
+        </div>
+        <a
+          href="{% url 'candidates:candidate_detail' election_id=election.id candidate_id=candidate.id %}"
+          >View Details</a
+        >
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="no-candidates">No candidates were found at this time.</p>
+  {% endif %}
 </div>
 {% endblock content %}
-

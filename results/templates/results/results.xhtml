@@ -1,11 +1,13 @@
 {% extends "candidates/base.xhtml" %} {% block content %}
 <div class="container">
-  <h1 style="color: #4caf50">{{ title }}</h1>
+  <h1 class="page-title">Election Results</h1>
 
-  {% if message %}
-  <p style="color: #ffffff">{{ message }}</p>
-  {% endif %} {% if election_results %}
-  <table>
+  <p class="message">
+    There are ongoing elections. Results will be displayed once they have ended.
+  </p>
+
+  {% if election_results %}
+  <table class="election-results">
     <thead>
       <tr>
         <th>#</th>
@@ -16,32 +18,21 @@
     </thead>
     <tbody>
       {% for election, data in election_results.items %}
-      <tr>
-        <td
-          colspan="4"
-          style="font-weight: bold; text-align: center; color: #4caf50"
-        >
-          <strong>Election: {{ election.name }}</strong>
+      <tr class="election-row">
+        <td colspan="4" class="election-title">
+          <strong style="color: #4caf50">Election: {{ election.name }}</strong>
         </td>
       </tr>
 
       {% for seat, results in data.results.items %}
-      <tr>
-        <td
-          colspan="4"
-          style="
-            font-weight: bold;
-            background-color: #333333;
-            text-align: center;
-            color: #ffffff;
-          "
-        >
+      <tr class="seat-row">
+        <td colspan="4" class="seat-title">
           <strong>Seat: {{ seat }}</strong>
         </td>
       </tr>
 
       {% if results %} {% for result in results %}
-      <tr>
+      <tr class="result-row">
         <td>{{ forloop.counter }}</td>
         <td>
           {{ result.candidate__first_name }} {{ result.candidate__last_name }}
@@ -50,65 +41,88 @@
         <td>{{ election.date }}</td>
       </tr>
       {% endfor %} {% else %}
-      <tr>
-        <td colspan="4" style="text-align: center; color: #ffffff">
-          No candidates for this seat.
-        </td>
+      <tr class="no-candidates">
+        <td colspan="4">No candidates for this seat.</td>
       </tr>
       {% endif %} {% endfor %} {% endfor %}
     </tbody>
   </table>
   {% else %}
-  <p style="color: #ffffff">No election results available.</p>
+  <p>No election results available.</p>
   {% endif %}
 </div>
 
 <style>
   body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #000000;
+    font-family: "Arial", sans-serif;
+    background-color: #ffffff;
+    color: #000000;
   }
 
   .container {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
-    background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 
-  h1 {
-    color: #4caf50;
+  .page-title {
+    color: #000000; /* Title color */
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-  p {
-    color: #ffffff;
+  .message {
+    color: #000000; /* Message color */
+    text-align: center;
+    margin-bottom: 20px;
   }
 
-  table {
-    border-collapse: collapse;
+  .election-results {
     width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
   }
 
   th,
   td {
-    border: 2px solid #4caf50;
-    padding: 8px;
+    padding: 12px;
+    border: 1px solid #4caf50;
     text-align: left;
-    color: #ffffff;
   }
 
   th {
-    background-color: #333333;
+    background-color: #f1f1f1;
+    color: #4caf50; /* Table header color */
+    font-weight: bold;
   }
 
-  tr:nth-child(even) {
-    background-color: #444444;
+  .election-title {
+    font-size: 1.2em;
+    text-align: center;
+    background-color: #e1e1e1;
+    padding: 10px;
+  }
+
+  .seat-title {
+    font-weight: bold;
+    background-color: #e1e1e1;
+    color: #000000; /* Seat title color */
+    text-align: center;
+    padding: 8px;
+  }
+
+  .result-row:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .no-candidates {
+    text-align: center;
+    color: #000000; /* No candidates text color */
+    font-style: italic;
+    padding: 10px;
   }
 </style>
 {% endblock %}
